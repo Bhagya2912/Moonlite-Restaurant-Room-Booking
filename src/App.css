@@ -1,0 +1,14 @@
+
+.swiper-button-next,
+.swiper-button-prev {
+  display: none !important;
+}
+
+/* App.css or index.css */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: auto; /* NOT 100% */
+  overflow-x: hidden; /* ok */
+  overflow-y: auto;   /* ok */
+}

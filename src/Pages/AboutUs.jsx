@@ -1,4 +1,5 @@
 import React from "react";
+import ClientSay from "../Components/ClientSay/ClientSay";
 
 export default function AboutUs() {
   return (
@@ -13,48 +14,56 @@ export default function AboutUs() {
   {/* Overlay */}
   <div className="absolute inset-0 bg-black/50 z-0" />
         <div className="absolute inset-0  bg-opacity-50 flex flex-col items-center justify-center text-white text-center">
-          <h1 className="text-4xl md:text-7xl font-serif mb-6 mt-15">About Us</h1>
-          <p className="text-lg">Whether you have questions, need answers, or simply want to chat.</p>
+          <h1 className="text-4xl md:text-7xl font-serif mb-6 mt-45">About Us</h1>
+          <p className="text-xl">Whether you have questions, need answers, or simply want to chat.</p>
         </div>
       </div>     
 
-      {/* Welcome Section */}
-      <section className="py-16 px-6 md:px-24 bg-white">
-        <div className="grid md:grid-cols-2 gap-10 items-center">
-          <div className="flex justify-center relative">
-            <img
-              src="https://html.themewant.com/moonlit/assets/images/index-4/about/1.webp"
-              className="rounded-md shadow-md w-2/3"
-              alt="Nature"
-            />
-            <img
-              src="https://html.themewant.com/moonlit/assets/images/index-4/about/2.webp"
-              className="absolute bottom-[-30px] left-20 w-1/2 border-4 border-white rounded-md shadow-lg"
-              alt="Hiker"
-            />
-          </div>
-          <div>
-            <h4 className="text-sm text-yellow-700 font-medium mb-2">About Us</h4>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Welcome To Our Moonlit Hotel & Resort
-            </h2>
-            <p className="text-gray-600 mb-6">
-              Welcome to Bikira, where luxury meets comfort in the heart of Canada.
-              Since 1999, we have been dedicated to providing an exceptional stay
-              for our guests, blending modern amenities with timeless elegance.
-              Our beautifully designed rooms and suites offer luxurious beds and
-              plush accommodations, ensuring a restful retreat.
-            </p>
-            <p className="text-yellow-800 text-xl font-signature">Coy</p>
-          </div>
-        </div>
-      </section>
+    {/* Welcome Section */}
+<section className="bg-white py-20 px-6 md:px-24">
+  <div className="grid md:grid-cols-2 gap-19 mb-20 items-center">
+    {/* Left - Images */}
+    <div className="relative flex justify-center items-center">
+      {/* Background Image */}
+      <img
+        src="https://html.themewant.com/moonlit/assets/images/index-4/about/1.webp"
+        alt="Background Landscape"
+        className="w-[500px] md:w-[650px] mr-40  h-[350px] md:h-[500px] rounded-xl shadow-lg object-cover"
+      />
+      {/* Overlapping Image */}
+      <img
+        src="https://html.themewant.com/moonlit/assets/images/index-4/about/2.webp"
+        alt="Mountain Hiker"
+        className="absolute left-55 bottom-[-140px] w-[350px] md:w-[380px] border-4 border-white rounded-xl shadow-xl"
+      />
+    </div>
 
-      <section className="bg-[#f4f4f4] px-6 md:px-24 py-20 relative">
-  <div className="grid md:grid-cols-2 items-center gap-16 relative z-10">
+    {/* Right - Text */}
+    <div className="text-center md:text-left">
+      <h4 className="text-[#a1865e] text-2xl font-semibold tracking-wide mb-3 mt-30">
+        ―⟡ About Us
+      </h4>
+      <h2 className="text-8xl md:text-5xl font-serif  text-gray-900 leading-tight mb-6">
+        Welcome To Our Moonlit Hotel & Resort
+      </h2>
+      <p className="text-gray-600 text-xl leading-relaxed mb-10">
+        Welcome to Bokinn, where luxury meets comfort in the heart of Canada.
+        Since 1999, we have been dedicated to providing an exceptional stay
+        for our guests, blending modern amenities with timeless elegance.
+        Our beautifully designed rooms and suites offer stunning views and
+        plush accommodations, ensuring a restful retreat whether you’re here
+        for business or leisure.
+      </p>
+      <img src="https://html.themewant.com/moonlit/assets/images/index-4/about/sign.webp" className="text-yellow-800 text-2xl font-signature mt-10"/>
+    </div>
+  </div>
+</section>
+
+      <section className="bg-[#f4f4f4] px-6 md:px-21 py-15  relative">
+  <div className="grid md:grid-cols-2 items-center gap-13 relative z-10">
     {/* Left Content */}
-    <div className="mb-90">
-      <p className="text-[#a1865e] text-3xl mb-5 ">― Facilities</p>
+    <div className="mb-5">
+      <p className="text-[#a1865e] text-3xl mb-5 ">―◇ Facilities</p>
       <h2 className="text-4xl md:text-6xl font-serif text-gray-900 mb-20">
         Hotel Facilities
       </h2>
@@ -66,7 +75,7 @@ export default function AboutUs() {
             <span className="text-[#b88d56]  text-7xl"><img src="https://html.themewant.com/moonlit/assets/images/icon/bed.svg"/></span>
             <h4 className="font-medium text-3xl mt-7 mb-7">Rooms and Suites</h4>
           </div>
-          <p className="text-lg text-gray-600 leading-relaxed">
+          <p className="text-xl text-gray-600 leading-relaxed">
             Varied types of rooms, from standard to luxury suites, equipped with essentials like beds.
           </p>
         </div>
@@ -77,29 +86,29 @@ export default function AboutUs() {
             <span className="text-[#b88d56] text-2xl"><img src="https://html.themewant.com/moonlit/assets/images/icon/security.svg"/></span>
             <h4 className="font-medium text-3xl mt-7 mb-7">24-Hour Security</h4>
           </div>
-          <p className="text-lg text-gray-600 leading-relaxed">
+          <p className="text-xl text-gray-600 leading-relaxed">
             On-site security personnel and best surveillance. From standard to luxury suites, secure storage for valuables.
           </p>
         </div>
 
         {/* 3 */}
         <div>
-          <div className=" items-start gap-3 mb-2">
-            <span className="text-[#b88d56] text-2xl"><img src="https://html.themewant.com/moonlit/assets/images/icon/gym.svg"/></span>
-            <h4 className="font-medium text-lg">Fitness Center</h4>
+          <div className=" items-start gap-3 mb-6 mt-10">
+            <span className="text-[#b88d56] text-4xl "><img src="https://html.themewant.com/moonlit/assets/images/icon/gym.svg"/></span>
+            <h4 className="font-medium text-3xl mt-10">Fitness Center</h4>
           </div>
-          <p className="text-sm text-gray-600 leading-relaxed">
+          <p className="text-xl text-gray-600 leading-relaxed">
             Equipped with exercise machines and weights. Offering massages, facials, and other treatments.
           </p>
         </div>
 
         {/* 4 */}
         <div>
-          <div className=" items-start gap-3 mb-2">
+          <div className=" items-start gap-3 mb-6 mt-10">
             <span className="text-[#b88d56] text-7xl"><img src="https://html.themewant.com/moonlit/assets/images/icon/swimming-pool.svg"/></span>
-            <h4 className="font-medium text-lg">Swimming Pool</h4>
+            <h4 className="font-medium text-3xl mt-10">Swimming Pool</h4>
           </div>
-          <p className="text-sm text-gray-600 leading-relaxed">
+          <p className="text-xl text-gray-600 leading-relaxed">
             Indoor or outdoor pools for leisure or exercise. Offering massages, facials, and other treatments.
           </p>
         </div>
@@ -124,7 +133,7 @@ export default function AboutUs() {
 
 
       {/* Meet The Team Section */}
-      <section className="bg-white py-16 px-6 md:px-24 text-center">
+      <section className="bg-white py-16 px-6 mt-15 md:px-24 text-center">
          <h4 className="text-yellow-800 text-base font-serif mb-2">
           <span className="flex items-center justify-center text-[#a8815e] gap-2 sm:gap-4 mb-6 sm:mb-10 text-lg sm:text-2xl font-serif">
             <span className="flex items-center">
@@ -213,6 +222,7 @@ export default function AboutUs() {
           
         </div>
       </section>
+      <section> <ClientSay/></section>
     </div>
   );
 }

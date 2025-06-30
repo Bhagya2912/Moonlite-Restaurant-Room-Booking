@@ -6,7 +6,6 @@ import OurRooms from "../Components/OurRooms/OurRooms";
 import ClientSay from "../Components/ClientSay/ClientSay";
 import VideoHeroSection from "../Components/VideoSection/VideoSection";
 import SpecialOffer from "../Components/Special Offer/SpecialOffer";
-import Footer from "../Components/Footer/Footer";
 import FollowInstagram from "../Components/FollowInstagram/FollowInstagram";
 
 export default function Home() {
@@ -20,8 +19,6 @@ export default function Home() {
       <VideoHeroSection/>
       <SpecialOffer/>
       <FollowInstagram/>
-      <Footer/>
-      {/* Add more sections here later */}
     </div>
   );
 }

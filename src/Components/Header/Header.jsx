@@ -4,7 +4,6 @@ import { HiOutlineMenu, HiX } from "react-icons/hi";
 import { useNavigate,Link } from "react-router-dom";
 import Loader from "../Loader";
 
-
 export default function Header({ onSignInClick,onSignUpClick }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [hideTopHeader, setHideTopHeader] = useState(false);
@@ -291,44 +290,55 @@ const pages = [
   )}
 </li>
 
-<li
-  onMouseEnter={() => setIsPagesOpen(true)}
-  onMouseLeave={() => setIsPagesOpen(false)}
-  className="relative cursor-pointer"
->
-  <div className="flex items-center gap-1 hover:text-yellow-600 group cursor-pointer">
+<li className="relative cursor-pointer">
+  {/* Clickable trigger */}
+  <div
+    onClick={() => setIsPagesOpen(prev => !prev)} // toggle dropdown on click
+    className="flex items-center gap-1 hover:text-yellow-600 group cursor-pointer"
+  >
     Pages
     <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="14"
-    height="14"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="mt-[2px] transform transition-transform duration-300 group-hover:rotate-180"
-  >
-    <polyline points="6 9 12 15 18 9" />
-  </svg>
+      xmlns="http://www.w3.org/2000/svg"
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`mt-[2px] transform transition-transform duration-300 ${
+        isPagesOpen ? 'rotate-180' : ''
+      }`}
+    >
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
   </div>
 
-
-{isPagesOpen && (
-  <div className="absolute top-full left-0 mt-4 z-50 bg-white shadow-lg w-55">
-    {pages.map((page, index) => (
-      <Link
-        key={index}
-        to={page.path}
-        className="block px-4 py-2 text-gray-800 mt-2 hover:text-yellow-600"
-      >
-        {page.name}
-      </Link>
-    ))}
-  </div>
-)}
+  {/* Dropdown menu */}
+  {isPagesOpen && (
+    <div className="absolute top-full left-0 mt-4 z-50 bg-white shadow-lg w-55">
+      {pages.map((page, index) => (
+        <div
+          key={index}
+          onClick={() => {
+            // Do NOT close dropdown here
+            setLoading(true);
+            setTimeout(() => {
+              setLoading(false);
+              navigate(page.path);
+            }, 500);
+          }}
+          className="block px-4 py-2 text-gray-800 mt-2 hover:text-yellow-600 cursor-pointer"
+        >
+          {page.name}
+        </div>
+      ))}
+    </div>
+  )}
 </li>
+
+
 <li
   onMouseEnter={() => setIsBlogOpen(true)}
   onMouseLeave={() => setIsBlogOpen(false)}

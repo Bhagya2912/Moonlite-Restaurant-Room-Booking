@@ -43,14 +43,14 @@ export default function FollowInstagram() {
         <div className="insta__gallery__slider overflow-hidden">
           <Swiper
   modules={[Autoplay, Navigation]}
-  slidesPerView={4}
-  spaceBetween={0} // ✅ adds spacing between images
+  spaceBetween={0}
   loop={true}
   autoplay={{ delay: 2000 }}
   breakpoints={{
-    640: { slidesPerView: 2 },
-    768: { slidesPerView: 3 },
-    1024: { slidesPerView: 4 },
+    0: { slidesPerView: 1 },         // ✅ Mobile: 1 image per view
+    640: { slidesPerView: 2 },       // Tablet portrait
+    768: { slidesPerView: 3 },       // Tablet landscape
+    1024: { slidesPerView: 4 },      // Desktop
   }}
 >
   {images.map((img, index) => (

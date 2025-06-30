@@ -8,6 +8,12 @@ import Home from './Pages/Home';
 import ContactPage from './Pages/ContactUs';
 import Footer from './Components/Footer/Footer';
 import AboutUs from './Pages/AboutUs';
+import Restaurant from './Pages/Restaurant';
+import Gallery from './Pages/Gallery';
+import Services from './Pages/Services';
+import Activities from './Pages/Activities';
+import Events from './Pages/Event';
+
 
 function App() {
   const [showSignIn, setShowSignIn] = useState(false);
@@ -38,7 +44,11 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/contactus" element={<ContactPage/>}/>
          <Route path="/about" element={<AboutUs/>}/>
-        <Route path="/signin" element={<SignIn />} />
+          <Route path="/gallery" element={<Gallery/>}/>
+          <Route path="/restaurant" element={<Restaurant/>}/>
+           <Route path="/service" element={<Services/>}/>
+            <Route path="/event" element={<Events/>}/>
+             <Route path="/activities" element={<Activities/>}/>
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>

@@ -22,10 +22,10 @@ const Booking = () => {
   };
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
+    <div className="px-2 sm:px-4 lg:px-6">
   <form
     onSubmit={handleSubmit}
-    className="bg-white shadow-md rounded-[20px] px-6 py-6 w-full max-w-6xl mx-auto flex flex-col md:flex-row md:items-center gap-6 md:gap-0"
+    className="bg-white shadow-md rounded-[20px] px-6 py-6 w-full max-w-[1330px] mx-auto flex flex-col md:flex-row md:items-center gap-6 md:gap-5"
   >
     {/* Check In */}
     <div className="w-full md:w-auto flex-1">
@@ -103,7 +103,7 @@ const Booking = () => {
     <div className="w-full md:w-auto">
       <button
         type="submit"
-        className="w-full md:w-auto bg-[#a8815e] text-white font-semibold px-6 py-3 rounded-md hover:bg-[#916c49] transition-all"
+        className="w-full md:w-auto bg-[#a8815e] text-white font-serif mt-6 px-6 py-3 rounded-md hover:bg-[#916c49] transition-all"
       >
         Check Now
       </button>

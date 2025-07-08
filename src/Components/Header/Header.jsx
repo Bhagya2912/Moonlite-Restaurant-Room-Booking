@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import { HiOutlineMenu, HiX } from "react-icons/hi";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate,Link, useLocation } from "react-router-dom";
 import Loader from "../Loader";
 
-export default function Header({ onSignInClick,onSignUpClick }) {
+export default function Header({ onSignInClick, onSignUpClick, bg }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [hideTopHeader, setHideTopHeader] = useState(false);
   const navigate = useNavigate();
@@ -14,6 +14,22 @@ export default function Header({ onSignInClick,onSignUpClick }) {
   const [isPagesOpen, setIsPagesOpen] = useState(false);
   const [isBlogOpen, setIsBlogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isPagesClicked, setIsPagesClicked] = useState(false);
+const [isRoomsClicked, setIsRoomsClicked] = useState(false);
+const [isHomeClicked, setIsHomeClicked] = useState(false);
+const [isBlogClicked, setIsBlogClicked] = useState(false);
+const location = useLocation();
+const isSeasidePage = location.pathname.toLowerCase().startsWith("/seaside");
+const isOceanbreezePage = location.pathname.toLowerCase().startsWith("/oceanbreeze");
+const isBeachHotelPage = location.pathname.toLowerCase().startsWith("/beachhotel");
+const [scrolled, setScrolled] = useState(false);
+const [mobileHomeOpen, setMobileHomeOpen] = useState(false);
+const [mobileRoomsOpen, setMobileRoomsOpen] = useState(false);
+const [mobilePagesOpen, setMobilePagesOpen] = useState(false);
+const [mobileRoomOpen, setMobileRoomOpen] = useState(false);
+const [mobileRoomStyleOpen, setMobileRoomStyleOpen] = useState(false);
+const [mobileRoomDetailOpen, setMobileRoomDetailOpen] = useState(false);
+const [mobileBlogOpen, setMobileBlogOpen] = useState(false);
 
   useEffect(() => {
     // Simulate brief loading (e.g., 800ms)
@@ -26,47 +42,47 @@ export default function Header({ onSignInClick,onSignUpClick }) {
   const homeMenuItems = [
   {
     name: "Luxury Hotel",
-    href: "index.html",
+    href: "/",
     img: "https://html.themewant.com/moonlit/assets/images/menu/main.webp",
   },
   {
     name: "LuxeVista Hotel",
-    href: "index-2.html",
+    href: "/luxevista",
     img: "https://html.themewant.com/moonlit/assets/images/menu/01.webp",
   },
   {
     name: "OceanBreeze Resort",
-    href: "index-3.html",
+    href: "/oceanbreeze",
     img: "https://html.themewant.com/moonlit/assets/images/menu/03.webp",
   },
   {
     name: "Apartment Hotel",
-    href: "index-4.html",
+    href: "/apartmenthotel",
     img: "https://html.themewant.com/moonlit/assets/images/menu/04.webp",
   },
   {
     name: "Mountain Hotel",
-    href: "index-5.html",
+    href: "/mountainhotel",
     img: "https://html.themewant.com/moonlit/assets/images/menu/4.webp",
   },
   {
     name: "City Hotel",
-    href: "index-6.html",
+    href: "/clientcity",
     img: "https://html.themewant.com/moonlit/assets/images/menu/5.webp",
   },
   {
     name: "Beach Hotel",
-    href: "index-7.html",
+    href: "/hotelbeach",
     img: "https://html.themewant.com/moonlit/assets/images/menu/6.webp",
   },
   {
     name: "Beach Hotel",
-    href: "index-dark.html",
+    href: "/beachHotel",
     img: "https://html.themewant.com/moonlit/assets/images/menu/hotel-dark.webp",
   },
   {
     name: "Hotel Seaside",
-    href: "index-video.html",
+    href: "/seaside",
     img: "https://html.themewant.com/moonlit/assets/images/menu/08.webp",
   },
 ];
@@ -102,18 +118,67 @@ const pages = [
 
     lastScrollY = currentScrollY;
   };
-
   window.addEventListener("scroll", handleScroll);
   return () => window.removeEventListener("scroll", handleScroll);
 }, []);
 
+useEffect(() => {
+  const handleScroll = () => {
+    setScrolled(window.scrollY > 0);
+  };
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
+
+
+const handleLinkClick = (path) => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setIsBlogOpen(false); // optional: close dropdown
+      navigate(path);
+    }, 1000); // 1s loading simulation
+  };
+
+  const handleBookNowClick = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false); // Optional — will unmount if navigating
+      navigate("/booknow");
+    }, 1000); // 1 second delay
+  };
+
+  // 🔐 Ensure dropdown is closed after page navigation (loader ends)
+  useEffect(() => {
+    if (!loading) {
+      setIsHomeOpen(false);
+      setIsHomeClicked(false);
+    }
+  }, [loading]);
+
+
+  const rooms = [
+    { name: "Room One", path: "/room-one" },
+    { name: "Room Two", path: "/room-two" },
+    { name: "Room Three", path: "/room-three" },
+    { name: "Room Four", path: "/room-four" },
+  ];
+
   return (
+
     <header className="w-full fixed top-0 left-0 z-50">
-      {/* Top Header */}
-    <div
-  className={`transition-all duration-500 bg-white text-gray-700 shadow px-4 sm:px-6 py-3 hidden sm:flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 ${
+  {/* Top Header */}
+ <div
+  className={`transition-all duration-500 px-4 sm:px-6 py-3 hidden sm:flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 ${
     hideTopHeader ? "sm:hidden" : ""
-  }`}
+  } ${
+  bg === "black"
+    ? "bg-black text-white"
+    : isSeasidePage || isOceanbreezePage // 👈 Add this condition
+    ? "bg-transparent text-white"
+    : "bg-white text-gray-700 shadow"
+}
+`}
 >
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-6 text-sm px-4 sm:px-18">
@@ -130,103 +195,161 @@ const pages = [
         </div>
       </div>
  <hr className="border-t border-gray-200 hidden sm:block" />
-      {/* Sticky Navbar */}
-      <nav className="sticky top-0 bg-white shadow-md py-4 flex items-center justify-between transition-all duration-300 z-40 px-4 sm:px-24">
+
+    <nav
+  className={`sticky top-0 py-4 flex items-center justify-between transition-all duration-300 z-40 px-4 sm:px-24 ${
+    bg === "black"
+      ? "bg-black text-white shadow-md"
+      : isSeasidePage || isOceanbreezePage
+      ? scrolled
+        ? "bg-black text-white shadow-md"
+        : "bg-transparent text-white"
+      : "bg-white text-black shadow-md"
+  }`}
+>
+
        {loading && <Loader />}
         {/* Desktop Menu */}
-        <ul className="hidden lg:flex gap-5 text-gray-700 text-sm font-medium ">
+        <ul
+  className={`hidden lg:flex gap-5 text-sm font-medium ${
+    bg === "black" || isSeasidePage || isOceanbreezePage ? "text-white" : "text-gray-700"
+  }`}
+
+>
       {/* HOME MENU */}
       <li
-        onMouseEnter={() => setIsHomeOpen(true)}
-        onMouseLeave={() => setIsHomeOpen(false)}
-        className="relative cursor-pointer"
-      >
-       <div className="flex items-center gap-1 hover:text-yellow-600 group cursor-pointer">
-  Home
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="14"
-    height="14"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="mt-[2px] transform transition-transform duration-300 group-hover:rotate-180"
-  >
-    <polyline points="6 9 12 15 18 9" />
-  </svg>
-</div>
-
-
-{isHomeOpen && (
+  className="relative cursor-pointer"
+  onMouseEnter={() => {
+    if (!isHomeClicked) setIsHomeOpen(true);
+  }}
+  onMouseLeave={() => {
+    if (!isHomeClicked) setIsHomeOpen(false);
+  }}
+>
+  {/* Clickable Trigger */}
   <div
-    className="absolute top-full left-0 mt-4 z-50 bg-white p-6 shadow-xl border border-gray-200 rounded-md w-[1000px] h-[600px] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5"
-    style={{
-      scrollbarWidth: 'none',         // Firefox
-      msOverflowStyle: 'none',        // IE 10+
+    onClick={() => {
+      const newClicked = !isHomeClicked;
+      setIsHomeClicked(newClicked);
+      setIsHomeOpen(newClicked);
     }}
+    className="flex items-center gap-1  hover:text-yellow-600 group cursor-pointer"
   >
-    <style>
-      {`
-        /* Hide scrollbar for Chrome, Safari and Edge */
-        div::-webkit-scrollbar {
-          display: none;
-        }
-      `}
-    </style>
-
-    {homeMenuItems.map((item, index) => (
-      <a
-        key={index}
-        href={item.href}
-        className="block text-center group"
-      >
-        <img
-          src={item.img}
-          alt={item.name}
-          className="w-full h-[400px] object-cover rounded-md transition-transform"
-        />
-        <span className="mt-2 block text-sm text-gray-800 hover:underline font-medium">
-          {item.name}
-        </span>
-      </a>
-    ))}
+    Home
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`mt-[2px] transform transition-transform duration-300 ${
+        isHomeOpen ? 'rotate-180' : ''
+      }`}
+    >
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
   </div>
-)}
-      </li>
+
+  {/* Dropdown Menu */}
+  {isHomeOpen && (
+    <div
+      className="absolute top-full left-0 mt-4 z-50 bg-white p-6 shadow-xl border border-gray-200 rounded-md w-[1000px] h-[600px] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5"
+      style={{
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+      }}
+    >
+      <style>
+        {`
+          div::-webkit-scrollbar {
+            display: none;
+          }
+        `}
+      </style>
+
+      {homeMenuItems.map((item, index) => (
+        <div
+          key={index}
+          onClick={() => {
+            setLoading(true);
+            setIsHomeOpen(false);        // CLOSE dropdown
+            setIsHomeClicked(false);     // Disable manual click
+            setTimeout(() => {
+              setLoading(false);
+              navigate(item.href);       // NAVIGATE to new page
+            }, 600);
+          }}
+          className="block text-center group cursor-pointer"
+        >
+          <img
+            src={item.img}
+            alt={item.name}
+            className="w-full h-[400px] object-cover rounded-md transition-transform duration-300 group-hover:scale-105"
+          />
+          <span className="mt-2 block text-sm text-gray-800 hover:underline font-medium">
+            {item.name}
+          </span>
+        </div>
+      ))}
+    </div>
+  )}
+
+  {/* Loader */}
+  {loading && (
+    <div className="fixed inset-0 bg-white bg-opacity-80 z-[9999] flex items-center justify-center">
+      <div className="w-14 h-14 border-4 border-[#a1865e] border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  )}
+</li>
+
 
       {/* ROOMS MENU */}
       <li
-  onMouseEnter={() => setIsRoomsOpen(true)}
-  onMouseLeave={() => setIsRoomsOpen(false)}
   className="relative cursor-pointer"
+  onMouseEnter={() => {
+    if (!isRoomsClicked) setIsRoomsOpen(true);
+  }}
+  onMouseLeave={() => {
+    if (!isRoomsClicked) setIsRoomsOpen(false);
+  }}
 >
- <div className="flex items-center gap-1 hover:text-yellow-600 group cursor-pointer">
+  {/* Trigger Button (Click + Hover) */}
+  <div
+    onClick={() => {
+      const newClicked = !isRoomsClicked;
+      setIsRoomsClicked(newClicked);
+      setIsRoomsOpen(newClicked);
+    }}
+    className="flex items-center gap-1 hover:text-yellow-600 group cursor-pointer"
+  >
     Rooms
     <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="14"
-    height="14"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="mt-[2px] transform transition-transform duration-300 group-hover:rotate-180"
-  >
-    <polyline points="6 9 12 15 18 9" />
-  </svg>
+      xmlns="http://www.w3.org/2000/svg"
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`mt-[2px] transform transition-transform duration-300 ${
+        isRoomsOpen ? "rotate-180" : ""
+      }`}
+    >
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
   </div>
 
-  {/* First-level Dropdown */}
+  {/* Dropdown Menu */}
   {isRoomsOpen && (
-    <div className="absolute top-full left-0 mt-2 z-50 bg-white shadow-lg  w-60">
-      
+    <div className="absolute top-full left-0 mt-2 z-50 bg-white shadow-lg w-60">
       {/* Room Style + submenu */}
-      <div className="group relative px-6 py-3 mt-4 flex justify-between items-center hover:text-yellow-600">
+      <div className="group relative px-6 py-3 mt-4 flex text-gray-800 justify-between items-center hover:text-yellow-600">
         Room Style
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -242,22 +365,29 @@ const pages = [
           <polyline points="9 6 15 12 9 18" />
         </svg>
 
-        {/* Room Style submenu */}
-        <div className="absolute top-5 left-full  bg-white shadow-lg w-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition duration-200 z-50 hover:text-yellow-600">
-          {["Room One", "Room Two", "Room Three", "Room Four"].map((room, index) => (
-            <a
+        <div className="absolute top-5 left-full bg-white shadow-lg w-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition duration-200 z-50">
+          {rooms.map((room, index) => (
+            <button
               key={index}
-              href="#"
-              className="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-yellow-600"
+              onClick={() => {
+                setLoading(true);
+                setIsRoomsClicked(false);
+                setIsRoomsOpen(false);
+                setTimeout(() => {
+                  setLoading(false);
+                  handleLinkClick(room.path);
+                }, 500);
+              }}
+              className="cursor-pointer block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-yellow-600"
             >
-              {room}
-            </a>
+              {room.name}
+            </button>
           ))}
         </div>
       </div>
 
       {/* Room Details + submenu */}
-      <div className="group relative px-6 py-3  flex justify-between items-center hover:text-yellow-600">
+      <div className="group relative px-6 py-3 flex text-gray-800 justify-between items-center hover:text-yellow-600">
         Room Details
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -273,27 +403,56 @@ const pages = [
           <polyline points="9 6 15 12 9 18" />
         </svg>
 
-        {/* Room Details submenu */}
-        <div className="absolute top-0 left-full  bg-white shadow-lg  w-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition duration-200 z-50 hover:text-yellow-600">
-          {["Room Detail 1", "Room Detail 2"].map((detail, index) => (
-            <a
+        <div className="absolute top-0 left-full bg-white shadow-lg w-52 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition duration-200 z-50">
+          {[
+            { label: "Room Detail 1", path: "/book-now" },
+            { label: "Room Detail 2", path: "/room-detail" },
+          ].map((item, index) => (
+            <button
               key={index}
-              href="#"
-              className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+              onClick={() => {
+                setLoading(true);
+                setIsRoomsClicked(false);
+                setIsRoomsOpen(false);
+                setTimeout(() => {
+                  setLoading(false);
+                  handleLinkClick(item.path);
+                }, 500);
+              }}
+              className="cursor-pointer block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-yellow-600"
             >
-              {detail}
-            </a>
+              {item.label}
+            </button>
           ))}
         </div>
       </div>
+
+      {/* Loader */}
+      {loading && (
+        <div className="fixed top-0 left-0 w-full h-full bg-white flex items-center justify-center z-[9999]">
+          <div className="w-12 h-12 border-4 border-[#af7b4f] border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
     </div>
   )}
 </li>
 
-<li className="relative cursor-pointer">
+<li
+  className="relative cursor-pointer"
+  onMouseEnter={() => {
+    if (!isPagesClicked) setIsPagesOpen(true);
+  }}
+  onMouseLeave={() => {
+    if (!isPagesClicked) setIsPagesOpen(false);
+  }}
+>
   {/* Clickable trigger */}
   <div
-    onClick={() => setIsPagesOpen(prev => !prev)} // toggle dropdown on click
+    onClick={() => {
+      const newClicked = !isPagesClicked;
+      setIsPagesClicked(newClicked);
+      setIsPagesOpen(newClicked); // toggle visibility
+    }}
     className="flex items-center gap-1 hover:text-yellow-600 group cursor-pointer"
   >
     Pages
@@ -322,7 +481,9 @@ const pages = [
         <div
           key={index}
           onClick={() => {
-            // Do NOT close dropdown here
+            // ✅ Close dropdown and reset clicked state
+            setIsPagesOpen(false);
+            setIsPagesClicked(false);
             setLoading(true);
             setTimeout(() => {
               setLoading(false);
@@ -338,44 +499,76 @@ const pages = [
   )}
 </li>
 
-
-<li
-  onMouseEnter={() => setIsBlogOpen(true)}
-  onMouseLeave={() => setIsBlogOpen(false)}
+ <li
   className="relative cursor-pointer"
+  onMouseEnter={() => {
+    if (!isBlogClicked) setIsBlogOpen(true);
+  }}
+  onMouseLeave={() => {
+    if (!isBlogClicked) setIsBlogOpen(false);
+  }}
 >
- <div className="flex items-center gap-1 hover:text-yellow-600 group cursor-pointer">
+  {/* Toggle Button */}
+  <div
+    onClick={() => {
+      const clicked = !isBlogClicked;
+      setIsBlogClicked(clicked);
+      setIsBlogOpen(clicked);
+    }}
+    className="flex items-center gap-1 hover:text-yellow-600 group"
+  >
     Blog
     <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="14"
-    height="14"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="mt-[2px] transform transition-transform duration-300 group-hover:rotate-180"
-  >
-    <polyline points="6 9 12 15 18 9" />
-  </svg>
+      xmlns="http://www.w3.org/2000/svg"
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`mt-[2px] transform transition-transform duration-300 ${
+        isBlogOpen ? "rotate-180" : ""
+      }`}
+    >
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
   </div>
 
+  {/* Dropdown Menu */}
   {isBlogOpen && (
-    <div className="absolute top-full left-0 mt-2 z-50 bg-white shadow-lg  w-55">
-      {["Blog", "Blog Details"].map((item, index) => (
-        <a
-          key={index}
-          href="#"
-          className="block px-4 py-2 text-gray-800 mt-2 hover:text-yellow-600"
-        >
-          {item}
-        </a>
-      ))}
+    <div className="absolute top-full left-0 mt-2 z-50 bg-white shadow-lg w-56">
+      {loading ? (
+        <div className="px-4 py-2 text-gray-600">Loading...</div>
+      ) : (
+        <>
+          <button
+            onClick={() => {
+              setIsBlogClicked(false);
+              setIsBlogOpen(false);
+              handleLinkClick("/blog");
+            }}
+            className="cursor-pointer block w-full text-left px-4 py-2 text-gray-800 hover:text-yellow-600"
+          >
+            Blog
+          </button>
+          <button
+            onClick={() => {
+              setIsBlogClicked(false);
+              setIsBlogOpen(false);
+              handleLinkClick("/blog-details");
+            }}
+            className="cursor-pointer block w-full text-left px-4 py-2 text-gray-800 hover:text-yellow-600"
+          >
+            Blog Details
+          </button>
+        </>
+      )}
     </div>
   )}
 </li>
+
 
     <li
           onClick={() => {
@@ -394,11 +587,11 @@ const pages = [
 
 
         {/* Logo */}
-        <Link to="/" className="text-2xl font-serif font-bold text-gray-900 flex items-center gap-2">
+      <Link to="/">
   <img
     src="https://html.themewant.com/moonlit/assets/images/logo/logo.svg"
     alt="Logo"
-    className="h-10 w-auto"
+    className={`h-10 w-auto cursor-pointer ${isSeasidePage || isOceanbreezePage  ? "invert" : ""}`}
   />
 </Link>
 
@@ -416,9 +609,18 @@ const pages = [
 >
   Register
 </button>
-          <button className="cursor-pointer bg-[#af7b4f] text-white px-4 py-1 rounded hover:bg-yellow-800">
-            Book Now
-          </button>
+            {loading ? (
+        <div className="flex items-center justify-center h-screen">
+          <div className="w-12 h-12 border-4 border-[#af7b4f] border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      ) : (
+        <button
+          onClick={handleBookNowClick}
+          className="cursor-pointer bg-[#af7b4f] text-white px-4 py-2 rounded hover:bg-yellow-800 transition duration-300"
+        >
+          Book Now
+        </button>
+      )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -464,23 +666,201 @@ const pages = [
               we have been dedicated to providing.
             </p>
 
-            <ul className="flex flex-col items-center text-white text-lg gap-6 pt-6 border-t border-gray-700">
-              {[
-                "Home",
-                "About Us",
-                "Rooms",
-                "Pages",
-                "Blog",
-                "Contact",
-              ].map((item) => (
+            <ul className="flex flex-col text-white text-lg gap-4 pt-6 border-t border-gray-700">
+  {/* HOME */}
+  <li>
+    <div
+      className="flex justify-between items-center cursor-pointer hover:text-orange-600"
+      onClick={() => setMobileHomeOpen(!mobileHomeOpen)}
+    >
+      <span>Home</span>
+      <span>{mobileHomeOpen ? "−" : "+"}</span>
+    </div>
+    {mobileHomeOpen && (
+      <ul className="ml-4 mt-2 space-y-2 text-base text-gray-300">
+        {homeMenuItems.map((item, idx) => (
+          <li
+            key={idx}
+            onClick={() => {
+              setMenuOpen(false);
+              navigate(item.href);
+            }}
+            className="cursor-pointer hover:text-yellow-500"
+          >
+            {item.name}
+          </li>
+        ))}
+      </ul>
+    )}
+  </li>
+
+  {/* ROOMS */}
+  <li>
+    <div
+      className="flex justify-between items-center cursor-pointer hover:text-orange-600"
+      onClick={() => setMobileRoomOpen(!mobileRoomOpen)}
+    >
+      <span>Rooms</span>
+      <span>{mobileRoomOpen ? "−" : "+"}</span>
+    </div>
+
+    {mobileRoomOpen && (
+      <ul className="ml-4 mt-2 space-y-2 text-base text-gray-300">
+        {/* Room Style */}
+        <li>
+          <div
+            className="flex justify-between items-center cursor-pointer hover:text-yellow-500"
+            onClick={() => setMobileRoomStyleOpen(!mobileRoomStyleOpen)}
+          >
+            <span>Room Style</span>
+            <span>{mobileRoomStyleOpen ? "−" : "+"}</span>
+          </div>
+          {mobileRoomStyleOpen && (
+            <ul className="ml-4 mt-2 space-y-2">
+              {rooms.map((room, idx) => (
                 <li
-                  key={item}
-                  className="w-full border-b border-gray-700 pb-2 cursor-pointer hover:text-orange-600"
+                  key={idx}
+                  onClick={() => {
+                    setMenuOpen(false);
+                    navigate(room.path);
+                  }}
+                  className="cursor-pointer hover:text-yellow-500"
                 >
-                  {item}
+                  {room.name}
                 </li>
               ))}
             </ul>
+          )}
+        </li>
+
+        {/* Room Details */}
+        <li>
+          <div
+            className="flex justify-between items-center cursor-pointer hover:text-yellow-500"
+            onClick={() => setMobileRoomDetailOpen(!mobileRoomDetailOpen)}
+          >
+            <span>Room Details</span>
+            <span>{mobileRoomDetailOpen ? "−" : "+"}</span>
+          </div>
+          {mobileRoomDetailOpen && (
+            <ul className="ml-4 mt-2 space-y-2">
+              {[
+                { label: "Room Detail 1", path: "/book-now" },
+                { label: "Room Detail 2", path: "/room-detail" },
+              ].map((detail, index) => (
+                <li
+                  key={index}
+                  onClick={() => {
+                    setMenuOpen(false);
+                    navigate(detail.path);
+                  }}
+                  className="cursor-pointer hover:text-yellow-500"
+                >
+                  {detail.label}
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      </ul>
+    )}
+  </li>
+
+  {/* PAGES */}
+  <li>
+    <div
+      className="flex justify-between items-center cursor-pointer hover:text-orange-600"
+      onClick={() => setMobilePagesOpen(!mobilePagesOpen)}
+    >
+      <span>Pages</span>
+      <span>{mobilePagesOpen ? "−" : "+"}</span>
+    </div>
+    {mobilePagesOpen && (
+      <ul className="ml-4 mt-2 space-y-2 text-base text-gray-300">
+        {pages.map((page, idx) => (
+          <li
+            key={idx}
+            onClick={() => {
+              setMenuOpen(false);
+              navigate(page.path);
+            }}
+            className="cursor-pointer hover:text-yellow-500"
+          >
+            {page.name}
+          </li>
+        ))}
+      </ul>
+    )}
+  </li>
+
+  {/* BLOG */}
+  <li>
+    <div
+      className="flex justify-between items-center cursor-pointer hover:text-orange-600"
+      onClick={() => setMobileBlogOpen(!mobileBlogOpen)}
+    >
+      <span>Blog</span>
+      <span>{mobileBlogOpen ? "−" : "+"}</span>
+    </div>
+    {mobileBlogOpen && (
+      <ul className="ml-4 mt-2 space-y-2 text-base text-gray-300">
+        <li
+          className="cursor-pointer hover:text-yellow-500"
+          onClick={() => {
+            setMenuOpen(false);
+            navigate("/blog");
+          }}
+        >
+          Blog
+        </li>
+        <li
+          className="cursor-pointer hover:text-yellow-500"
+          onClick={() => {
+            setMenuOpen(false);
+            navigate("/blog-details");
+          }}
+        >
+          Blog Details
+        </li>
+      </ul>
+    )}
+    
+  </li>
+
+  {/* CONTACT */}
+  <li
+    onClick={() => {
+      setMenuOpen(false);
+      navigate("/contactus");
+    }}
+    className="cursor-pointer hover:text-orange-600"
+  >
+    Contact
+  </li>
+
+  {/* SIGN IN */}
+  <li
+    onClick={() => {
+      setMenuOpen(false);
+      onSignInClick();
+    }}
+    className="cursor-pointer hover:text-yellow-500"
+  >
+    Sign In
+  </li>
+
+  {/* REGISTER */}
+  <li
+    onClick={() => {
+      setMenuOpen(false);
+      onSignUpClick();
+    }}
+    className="cursor-pointer hover:text-yellow-500"
+  >
+    Register
+  </li>
+</ul>
+
 
             <div className="mt-6 flex flex-col gap-2 text-white text-sm border-gray-700 pt-4">
               <span className="text-xl">Phone</span>

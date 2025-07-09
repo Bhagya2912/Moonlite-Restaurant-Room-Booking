@@ -666,7 +666,7 @@ const handleLinkClick = (path) => {
               we have been dedicated to providing.
             </p>
 
-            <ul className="flex flex-col text-white text-lg gap-4 pt-6 border-t border-gray-700">
+           <ul className="flex flex-col text-white text-lg gap-8 pt-6 border-t border-gray-700">
   {/* HOME */}
   <li>
     <div
@@ -682,8 +682,12 @@ const handleLinkClick = (path) => {
           <li
             key={idx}
             onClick={() => {
+              setLoading(true);
               setMenuOpen(false);
-              navigate(item.href);
+              setTimeout(() => {
+                navigate(item.href);
+                setLoading(false);
+              }, 500);
             }}
             className="cursor-pointer hover:text-yellow-500"
           >
@@ -697,19 +701,18 @@ const handleLinkClick = (path) => {
   {/* ROOMS */}
   <li>
     <div
-      className="flex justify-between items-center cursor-pointer hover:text-orange-600"
+      className="flex justify-between items-center cursor-pointer border-t border-gray-700 hover:text-orange-600"
       onClick={() => setMobileRoomOpen(!mobileRoomOpen)}
     >
       <span>Rooms</span>
       <span>{mobileRoomOpen ? "−" : "+"}</span>
     </div>
-
     {mobileRoomOpen && (
       <ul className="ml-4 mt-2 space-y-2 text-base text-gray-300">
         {/* Room Style */}
         <li>
           <div
-            className="flex justify-between items-center cursor-pointer hover:text-yellow-500"
+            className="flex justify-between items-center cursor-pointer border-t border-gray-700 hover:text-yellow-500"
             onClick={() => setMobileRoomStyleOpen(!mobileRoomStyleOpen)}
           >
             <span>Room Style</span>
@@ -721,10 +724,14 @@ const handleLinkClick = (path) => {
                 <li
                   key={idx}
                   onClick={() => {
+                    setLoading(true);
                     setMenuOpen(false);
-                    navigate(room.path);
+                    setTimeout(() => {
+                      navigate(room.path);
+                      setLoading(false);
+                    }, 500);
                   }}
-                  className="cursor-pointer hover:text-yellow-500"
+                  className="cursor-pointer text-lg border-t border-gray-700 hover:text-yellow-500"
                 >
                   {room.name}
                 </li>
@@ -736,14 +743,14 @@ const handleLinkClick = (path) => {
         {/* Room Details */}
         <li>
           <div
-            className="flex justify-between items-center cursor-pointer hover:text-yellow-500"
+            className="flex justify-between items-center border-t border-gray-700 cursor-pointer hover:text-yellow-500"
             onClick={() => setMobileRoomDetailOpen(!mobileRoomDetailOpen)}
           >
             <span>Room Details</span>
             <span>{mobileRoomDetailOpen ? "−" : "+"}</span>
           </div>
           {mobileRoomDetailOpen && (
-            <ul className="ml-4 mt-2 space-y-2">
+            <ul className="ml-2 mt-8 space-y-2">
               {[
                 { label: "Room Detail 1", path: "/book-now" },
                 { label: "Room Detail 2", path: "/room-detail" },
@@ -751,10 +758,14 @@ const handleLinkClick = (path) => {
                 <li
                   key={index}
                   onClick={() => {
+                    setLoading(true);
                     setMenuOpen(false);
-                    navigate(detail.path);
+                    setTimeout(() => {
+                      navigate(detail.path);
+                      setLoading(false);
+                    }, 500);
                   }}
-                  className="cursor-pointer hover:text-yellow-500"
+                  className="cursor-pointer text-lg border-t border-gray-700 hover:text-yellow-500"
                 >
                   {detail.label}
                 </li>
@@ -769,7 +780,7 @@ const handleLinkClick = (path) => {
   {/* PAGES */}
   <li>
     <div
-      className="flex justify-between items-center cursor-pointer hover:text-orange-600"
+      className="flex justify-between items-center cursor-pointer text-xl border-t border-gray-700 hover:text-orange-400"
       onClick={() => setMobilePagesOpen(!mobilePagesOpen)}
     >
       <span>Pages</span>
@@ -781,10 +792,14 @@ const handleLinkClick = (path) => {
           <li
             key={idx}
             onClick={() => {
+              setLoading(true);
               setMenuOpen(false);
-              navigate(page.path);
+              setTimeout(() => {
+                navigate(page.path);
+                setLoading(false);
+              }, 500);
             }}
-            className="cursor-pointer hover:text-yellow-500"
+            className="cursor-pointer border-t border-gray-700 hover:text-yellow-500"
           >
             {page.name}
           </li>
@@ -796,7 +811,7 @@ const handleLinkClick = (path) => {
   {/* BLOG */}
   <li>
     <div
-      className="flex justify-between items-center cursor-pointer hover:text-orange-600"
+      className="flex justify-between items-center cursor-pointer text-lg border-t border-gray-700 hover:text-orange-500"
       onClick={() => setMobileBlogOpen(!mobileBlogOpen)}
     >
       <span>Blog</span>
@@ -807,8 +822,12 @@ const handleLinkClick = (path) => {
         <li
           className="cursor-pointer hover:text-yellow-500"
           onClick={() => {
+            setLoading(true);
             setMenuOpen(false);
-            navigate("/blog");
+            setTimeout(() => {
+              navigate("/blog");
+              setLoading(false);
+            }, 500);
           }}
         >
           Blog
@@ -816,24 +835,31 @@ const handleLinkClick = (path) => {
         <li
           className="cursor-pointer hover:text-yellow-500"
           onClick={() => {
+            setLoading(true);
             setMenuOpen(false);
-            navigate("/blog-details");
+            setTimeout(() => {
+              navigate("/blog-details");
+              setLoading(false);
+            }, 500);
           }}
         >
           Blog Details
         </li>
       </ul>
     )}
-    
   </li>
 
   {/* CONTACT */}
   <li
     onClick={() => {
+      setLoading(true);
       setMenuOpen(false);
-      navigate("/contactus");
+      setTimeout(() => {
+        navigate("/contactus");
+        setLoading(false);
+      }, 500);
     }}
-    className="cursor-pointer hover:text-orange-600"
+    className="cursor-pointer text-lg border-t border-gray-700 hover:text-orange-500"
   >
     Contact
   </li>
@@ -841,10 +867,14 @@ const handleLinkClick = (path) => {
   {/* SIGN IN */}
   <li
     onClick={() => {
+      setLoading(true);
       setMenuOpen(false);
-      onSignInClick();
+      setTimeout(() => {
+        onSignInClick();
+        setLoading(false);
+      }, 500);
     }}
-    className="cursor-pointer hover:text-yellow-500"
+    className="cursor-pointer text-lg border-t border-gray-700 hover:text-yellow-500"
   >
     Sign In
   </li>
@@ -852,15 +882,18 @@ const handleLinkClick = (path) => {
   {/* REGISTER */}
   <li
     onClick={() => {
+      setLoading(true);
       setMenuOpen(false);
-      onSignUpClick();
+      setTimeout(() => {
+        onSignUpClick();
+        setLoading(false);
+      }, 500);
     }}
-    className="cursor-pointer hover:text-yellow-500"
+    className="cursor-pointer text-lg border-t border-gray-700 hover:text-yellow-500"
   >
     Register
   </li>
 </ul>
-
 
             <div className="mt-6 flex flex-col gap-2 text-white text-sm border-gray-700 pt-4">
               <span className="text-xl">Phone</span>
